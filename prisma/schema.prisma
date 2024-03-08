@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model kelurahan {
+  id_kelurahan String  @id @db.VarChar(20)
+  kelurahan    String  @db.VarChar(50)
+  warga        warga[]
+}
+
+model warga {
+  id_warga     String    @id @db.VarChar(20)
+  id_kelurahan String    @db.VarChar(20)
+  nama         String    @db.VarChar(50)
+  umur         String    @db.VarChar(3)
+  alamat       String    @db.VarChar(100)
+  kelurahan    kelurahan @relation(fields: [id_kelurahan], references: [id_kelurahan], onDelete: NoAction, onUpdate: NoAction, map: "warga_ibfk_1")
+
+  @@index([id_kelurahan], map: "id_kelurahan")
+}
